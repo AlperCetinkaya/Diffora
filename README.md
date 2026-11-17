@@ -1,5 +1,7 @@
 # Diffora
 
+[Türkçe](README.md) | [English](README.en.md)
+
 İki metin veya kod dosyasının ilk ve son halini yan yana karşılaştıran, tarayıcı içinde çalışan bir web uygulaması. Aynı satırlar yeşil, farklı satırlar kırmızı gösterilir. Eklenen ve silinen satırlar için karşı tarafta boş alan bırakılarak hizalama korunur.
 
 ## Özellikler
@@ -52,7 +54,8 @@ Uygulama HTML, CSS ve vanilla JavaScript ile geliştirilmiştir. Çalışma zama
 
 ```text
 diffora/
-├── README.md
+├── README.md       # Türkçe dokümantasyon
+├── README.en.md    # İngilizce dokümantasyon
 ├── .gitignore
 └── dist/
     ├── index.html   # Sayfa ve arayüz iskeleti
