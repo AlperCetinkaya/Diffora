@@ -67,13 +67,13 @@ diffora/
 
 `dist/` klasörü doğrudan düzenlenebilen uygulama kaynaklarını içerir; bir derleme adımıyla üretilmez.
 
-Karşılaştırma, ortak başlangıç ve bitiş satırlarını ayırdıktan sonra kalan bölümde en uzun ortak alt dizi (LCS) yaklaşımını kullanır. Ardışık silme ve eklemeler yan yana satırlara dönüştürülür. Çekirdek algoritma CRLF ve CR satır sonlarını LF olarak normalize eder.
+Karşılaştırma ortak başlangıç ve bitiş satırlarını ayırır. Küçük bölümlerde en uzun ortak alt dizi (LCS), büyük bölümlerde ise seyrek değişiklikleri verimli işleyen, işlem ve bellek sınırları olan Myers yaklaşımı kullanılır. Ardışık silme ve eklemeler yan yana satırlara dönüştürülür. Çekirdek algoritma CRLF ve CR satır sonlarını LF olarak normalize eder.
 
 ## Sınırlar
 
 - Dosya seçme ve sürükleyip bırakmada dosya başına en fazla **2 MB** kabul edilir. Yapıştırılan metin için aynı dosya boyutu kontrolü uygulanmaz.
 - Dosyalar UTF-8 metin olarak okunur. NUL karakteri içeren ikili dosyalar reddedilir. PDF, Word ve görsel dosyalarının içeriğini çıkartmaz.
-- Ortak başlangıç ve bitiş çıkarıldıktan sonra karşılaştırma matrisi `(n + 1) × (m + 1)` için **12 milyon hücreyle** sınırlandırılır. Bu sınır aşılırsa daha küçük bölümler karşılaştırılmalıdır.
+- Ortak başlangıç ve bitiş çıkarıldıktan sonra `(n + 1) × (m + 1)` matrisi **12 milyon hücreyi** aşarsa büyük dosya algoritmasına geçilir. Bu algoritmada arama adımları ve saklanan iz hücreleri ayrı ayrı 12 milyonla sınırlıdır. Çok farklı büyük dosyalar işlem sınırına takılabilir; bu durumda sonuçlar temizlenir ve daha küçük bölümler karşılaştırılmalıdır.
 - Boşlukları yok sayma seçeneği, satır içindeki tüm boşluk karakterlerini karşılaştırmadan çıkarır; kodun anlamını analiz etmez.
 - Bu sürüm metin karşılaştırmaya yöneliktir. Git conflict çözme, dosya birleştirme, sözdizimi renklendirme ve düzenlenen dosyayı dışa aktarma özellikleri bulunmaz.
 
@@ -92,3 +92,14 @@ Bu komutlar tarayıcı testi yerine geçmez. Arayüz kontrolünde örneği yükl
 ## Yayınlama
 
 Herhangi bir statik web sunucusunda **`dist/` klasörünü** yayınlayın. Derleme komutu gerekmez. GitHub deposuna yüklemek, tek başına GitHub Pages yayınını etkinleştirmez.
+
+## Regresyon testleri
+
+Node.js ile ek bağımlılık kurmadan çalıştırın:
+
+```bash
+node tests/long-documents.cjs
+node tests/regressions.cjs
+```
+
+Testler uzun dosyalar, dağınık değişiklikler, kapasite hatası sonrası durum, farklar arasında gezinme ve yok sayılan boşluk vurgularını kapsar. İlk komut `fixtures/` altında örnek TXT dosyalarını ve `results.json` dosyasını üretir. DOM durum testleri bir test modeli kullanır; gerçek tarayıcı testinin yerine geçmez.
