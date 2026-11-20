@@ -2,7 +2,23 @@
 
 [English](README.en.md) | [Türkçe](README.md)
 
-A browser-based web app for comparing the original and updated versions of two text or code files side by side. Matching lines appear in green and differences in red. Blank cells keep the two sides aligned when lines are added or removed.
+A browser-based app for comparing two text/code files side by side and inspecting JSON/XML service responses. Matching lines appear in green and differences in red. Blank cells keep the two sides aligned when lines are added or removed.
+
+## JSON / XML Viewer
+
+In the [live Viewer](https://alpercetinkaya.com.tr/diffora/#viewer) tab, paste a service response or load a UTF-8 file. **Format and validate** auto-detects JSON/XML, with manual format selection also available.
+
+- Collapsible tree for nested objects, arrays, and XML elements
+- Syntax-colored code view with line numbers and 2- or 4-space indentation
+- Syntax error details, line/column positions where provided by the parser, and **Go to error**
+- Key/value search and match navigation
+- Indented/minified output, copy, and `.json` / `.xml` download
+- Explicit action to open JSON/XML embedded in a JSON string
+- Formatting preserves large JSON numbers, duplicate keys, and numeric spellings
+- XML mixed text, CDATA, and `xml:space` preserve meaningful whitespace
+- Turkish, English, and German interfaces; switching tabs preserves inputs
+
+Invalid source is not automatically corrected. The Viewer accepts up to 2 MB. DTD/DOCTYPE is unsupported; parsing supports up to 512 nested levels. Tree rendering is limited to 8,000 nodes / 120 levels; full output is retained in code view, copy, and download. XML schema/XSD validation is not included.
 
 ## Features
 
@@ -61,6 +77,9 @@ Diffora/
     ├── index.html  # Page and interface structure
     ├── style.css   # Theme, comparison colors, and responsive layout
     ├── diff.js     # Line matching and alignment algorithm
+    ├── viewer-core.js # JSON/XML parsing and formatting
+    ├── viewer.js      # Viewer tab and interactions
+    ├── viewer.css     # Viewer layout and theme
     ├── i18n.js     # TR / EN / DE translations and language preference
     └── app.js      # File reading, comparison display, and interactions
 ```
@@ -101,5 +120,14 @@ Run with Node.js without installing dependencies:
 node tests/long-documents.cjs
 node tests/regressions.cjs
 ```
+
+To run the full suite including Viewer tests, use Node.js 24.15+ (24.x):
+
+```bash
+npm ci
+npm test
+```
+
+`jsdom` is a development/test dependency only. The deployed app does not require npm or a backend.
 
 Tests cover long documents, sparse changes, state after capacity errors, difference navigation, and ignored-whitespace highlighting. The first command generates sample TXT files in `fixtures/` and a `results.json` file. DOM state tests use a test model and do not replace real browser testing.

@@ -2,7 +2,23 @@
 
 [Türkçe](README.md) | [English](README.en.md)
 
-İki metin veya kod dosyasının ilk ve son halini yan yana karşılaştıran, tarayıcı içinde çalışan bir web uygulaması. Aynı satırlar yeşil, farklı satırlar kırmızı gösterilir. Eklenen ve silinen satırlar için karşı tarafta boş alan bırakılarak hizalama korunur.
+İki metin veya kod dosyasını yan yana karşılaştıran ve JSON/XML servis cevaplarını incelemeyi sağlayan, tarayıcı içinde çalışan bir web uygulaması. Aynı satırlar yeşil, farklı satırlar kırmızı gösterilir. Eklenen ve silinen satırlar için karşı tarafta boş alan bırakılarak hizalama korunur.
+
+## JSON / XML Viewer
+
+[Canlı Viewer](https://alpercetinkaya.com.tr/diffora/#viewer) sekmesinde servis cevabını yapıştırın veya UTF-8 dosya yükleyin. **Formatla ve doğrula** ile JSON/XML otomatik tanınır; biçimi elle de seçebilirsiniz.
+
+- İç içe nesneler, diziler ve XML etiketleri için açılıp kapanan ağaç görünümü
+- Renklendirilmiş, satır numaralı kod görünümü; 2 veya 4 boşluk girinti
+- Biçim hatası açıklaması ve ayrıştırıcı sağladığında satır/sütun konumu; **Hataya git**
+- Alan/değer arama ve eşleşmeler arasında gezinme
+- Girintili/sıkıştırılmış çıktı, kopyalama ve `.json` / `.xml` indirme
+- JSON string'i içinde taşınan JSON/XML'i açık bir kullanıcı eylemiyle açma
+- Büyük JSON sayıları, yinelenen anahtarlar ve sayı yazımları formatlama sırasında korunur
+- XML karışık metin, CDATA ve `xml:space` içeriklerinin anlamlı boşlukları korunur
+- Türkçe, İngilizce ve Almanca arayüz; sekme değişiminde girdiler korunur
+
+Kaynak metin biçim hatasında otomatik düzeltilmez. Viewer en fazla 2 MB içerik kabul eder. DTD/DOCTYPE desteklenmez; en fazla 512 iç içe seviye ayrıştırılır. Ağaç görünümü 8.000 düğüm / 120 seviye ile sınırlıdır; tam içerik kod görünümünde, kopyalamada ve indirmede korunur. XML şema/XSD doğrulaması yapılmaz.
 
 ## Özellikler
 
@@ -61,6 +77,9 @@ diffora/
     ├── index.html   # Sayfa ve arayüz iskeleti
     ├── style.css    # Tema, karşılaştırma renkleri ve responsive düzen
     ├── diff.js      # Satır eşleştirme ve hizalama algoritması
+    ├── viewer-core.js # JSON/XML ayrıştırma ve formatlama
+    ├── viewer.js      # Viewer sekmesi ve etkileşimleri
+    ├── viewer.css     # Viewer düzeni ve tema
     ├── i18n.js      # TR / EN / DE çevirileri ve dil tercihi
     └── app.js       # Dosya okuma, karşılaştırma görünümü ve etkileşimler
 ```
@@ -101,5 +120,14 @@ Node.js ile ek bağımlılık kurmadan çalıştırın:
 node tests/long-documents.cjs
 node tests/regressions.cjs
 ```
+
+Viewer testleri dahil tam paket için Node.js 24.15+ (24.x) kullanın:
+
+```bash
+npm ci
+npm test
+```
+
+`jsdom` yalnızca geliştirme/test bağımlılığıdır. Yayındaki uygulama için npm veya sunucu kurulumu gerekmez.
 
 Testler uzun dosyalar, dağınık değişiklikler, kapasite hatası sonrası durum, farklar arasında gezinme ve yok sayılan boşluk vurgularını kapsar. İlk komut `fixtures/` altında örnek TXT dosyalarını ve `results.json` dosyasını üretir. DOM durum testleri bir test modeli kullanır; gerçek tarayıcı testinin yerine geçmez.
