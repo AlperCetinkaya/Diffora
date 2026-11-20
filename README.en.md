@@ -6,20 +6,29 @@ A browser-based app for comparing two text/code files side by side and inspectin
 
 ## Tools and navigation
 
-Diffora provides two independent tools in a shared navigation layout:
+Diffora provides three independent tools in a shared navigation layout:
 
 - [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
+- [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 
 Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
 
-For direct links on GitHub Pages, `dist/compare/index.html` and `dist/viewer/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, and `dist/codec/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
 
 ```bash
 npm run build
 ```
 
-This command only generates two static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+This command only generates three static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
+## URL / Base64 Encode–Decode
+
+The [live tool](https://alpercetinkaya.com.tr/diffora/codec/) encodes and decodes UTF-8 text locally. It supports URL component/parameter mode, full URL mode, form/query (`+` as space), and standard or URL-safe Base64. Base64 decoding ignores whitespace and line breaks, validates padding when present, and accepts correctly unpadded input.
+
+Paste text or load a file. Copy or download the result, or move it back to the input with the reverse operation selected. Changing input or options clears stale output. Input is limited to 2 MB. Base64 is an encoding, not encryption; decoded binary data is reported as an error rather than displayed as invalid UTF-8. Content stays in the browser and is not uploaded.
+
+URL component mode encodes reserved characters; full URL mode preserves the `: / ? & = #` separators. Full URL decoding leaves encoded reserved characters such as `%2F` intact to preserve URL structure.
 
 ## JSON / XML Viewer
 

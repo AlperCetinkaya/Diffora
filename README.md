@@ -6,20 +6,29 @@
 
 ## Araçlar ve gezinme
 
-Diffora, ortak bir sol menü altında iki bağımsız araç sunar:
+Diffora, ortak bir sol menü altında üç bağımsız araç sunar:
 
 - [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
+- [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 
 Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
 
-GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html` ve `dist/viewer/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` ve `dist/codec/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
 
 ```bash
 npm run build
 ```
 
-Bu komut yalnızca iki statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+Bu komut yalnızca üç statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
+## URL / Base64 Encode–Decode
+
+[Canlı araç](https://alpercetinkaya.com.tr/diffora/codec/) UTF-8 metni yerel olarak kodlar ve çözer. URL bileşeni/parametre modu, tam URL modu, form/query (`+` boşluk) seçeneği, standart ve URL-safe Base64 desteklenir. Base64 çözmede satır sonları ve boşluklar yok sayılır; padding varsa doğrulanır, doğru padding'siz girdiler de kabul edilir.
+
+Metin yapıştırabilir veya dosya yükleyebilirsiniz. Sonuç kopyalanabilir, indirilebilir veya ters işlem için girdiye taşınabilir. Girdi ve seçenekler değiştiğinde önceki çıktı temizlenir. Girdi sınırı 2 MB'dır. Base64 bir şifreleme yöntemi değildir; ikili veriler UTF-8 metin gibi gösterilmez, hata olarak bildirilir. İçerik tarayıcıda işlenir ve sunucuya gönderilmez.
+
+URL bileşeni modu ayrılmış karakterleri kodlar; tam URL modu `: / ? & = #` ayraçlarını korur. Tam URL çözümü, URL yapısını korumak için `%2F` gibi kodlanmış ayrılmış karakterleri çözmez.
 
 ## JSON / XML Viewer
 

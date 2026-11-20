@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const {JSDOM}=require('jsdom');const root=path.resolve(__dirname,'..');
 function setup(entry='index.html',url='https://example.com/diffora/'){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'dist',entry),'utf8'),{url,runScripts:'outside-only'}),w=dom.window;
- w.TextEncoder=TextEncoder;w.HTMLElement.prototype.scrollIntoView=function(){};
- for(const file of ['viewer-core.js','diff.js','i18n.js','app.js','viewer.js'])w.eval(fs.readFileSync(path.join(root,'dist',file),'utf8'));
+ w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.HTMLElement.prototype.scrollIntoView=function(){};
+ for(const file of ['viewer-core.js','diff.js','i18n.js','app.js','viewer.js','codec-core.js','codec.js','toolkit.js'])w.eval(fs.readFileSync(path.join(root,'dist',file),'utf8'));
  return {dom,w,el:id=>w.document.getElementById(id)};
 }
 test('Root opens comparison and stable tool links never accumulate nested paths',()=>{
@@ -11,8 +11,8 @@ test('Root opens comparison and stable tool links never accumulate nested paths'
  for(let i=0;i<4;i++){s.el('tab-viewer').click();assert.equal(s.w.location.pathname,'/diffora/viewer/');assert.equal(s.el('tab-viewer').getAttribute('aria-current'),'page');assert.equal(s.el('tab-compare').hasAttribute('aria-current'),false);s.el('tab-compare').click();assert.equal(s.w.location.pathname,'/diffora/compare/');}
  assert.equal(s.w.document.querySelector('header .brand').href,'https://example.com/diffora/');s.dom.window.close();
 });
-test('Both nested entry pages resolve assets to the app root and select the correct tool',()=>{
- for(const name of ['compare','viewer']){for(const ending of ['/','/index.html']){const s=setup(name+'/index.html','https://example.com/diffora/'+name+ending);assert.equal(s.w.document.baseURI,'https://example.com/diffora/');assert.equal(s.w.location.pathname,'/diffora/'+name+'/');assert.equal(s.el('viewer-panel').hidden,name!=='viewer');assert.equal(s.el('tab-viewer').href,'https://example.com/diffora/viewer/');assert.match(s.w.document.title,/Developer Toolkit/);s.dom.window.close();}}
+test('All nested entry pages resolve assets to the app root and select the correct tool',()=>{
+ for(const name of ['compare','viewer','codec']){for(const ending of ['/','/index.html']){const s=setup(name+'/index.html','https://example.com/diffora/'+name+ending);assert.equal(s.w.document.baseURI,'https://example.com/diffora/');assert.equal(s.w.location.pathname,'/diffora/'+name+'/');assert.equal(s.el('viewer-panel').hidden,name!=='viewer');assert.equal(s.el('tab-viewer').href,'https://example.com/diffora/viewer/');assert.match(s.w.document.title,/Developer Toolkit/);s.dom.window.close();}}
 });
 test('Legacy hash links are canonicalized and query strings remain intact',()=>{
  for(const [hash,name] of [['#viewer','viewer'],['#compare','compare']]){const s=setup('index.html','https://example.com/diffora/?source=bookmark'+hash);assert.equal(s.w.location.pathname,'/diffora/'+name+'/');assert.equal(s.w.location.hash,'');assert.equal(s.w.location.search,'?source=bookmark');s.dom.window.close();}
