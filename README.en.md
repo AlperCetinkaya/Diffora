@@ -44,7 +44,7 @@ In the [live Viewer](https://alpercetinkaya.com.tr/diffora/viewer/) tab, paste a
 - XML mixed text, CDATA, and `xml:space` preserve meaningful whitespace
 - Turkish, English, and German interfaces; switching tabs preserves inputs
 
-Invalid source is not automatically corrected. The Viewer accepts up to 2 MB. DTD/DOCTYPE is unsupported; parsing supports up to 512 nested levels. Tree rendering is limited to 8,000 nodes / 120 levels; full output is retained in code view, copy, and download. XML schema/XSD validation is not included.
+Invalid source is not automatically corrected. The Viewer accepts up to 2 MB. DTD/DOCTYPE is unsupported; parsing supports up to 512 nested levels. Tree rendering is limited to 8,000 nodes / 120 levels for ordinary content and 1,000 nodes for large content; long keys and values are shortened in previews. Code previews show up to 200 lines, 32,768 characters, and 1,000 characters per line. Syntax coloring is disabled for large previews. These limits are disclosed onscreen; search covers the visible preview only. **Copy and Download always use the complete output.** XML schema/XSD validation is not included.
 
 ## Features
 
@@ -157,3 +157,9 @@ npm test
 `jsdom` is a development/test dependency only. The deployed app does not require npm or a backend.
 
 Tests cover long documents, sparse changes, state after capacity errors, difference navigation, and ignored-whitespace highlighting. The first command generates sample TXT files in `fixtures/` and a `results.json` file. DOM state tests use a test model and do not replace real browser testing.
+
+### Large Viewer output
+
+Hidden code views are not rendered eagerly. Minifying updates only a bounded preview; copying uses the complete formatted result rather than shortened screen text. The copy button is disabled while a write is pending and a status message is shown. Editing the input prevents a stale copy-success message from appearing for new content.
+
+`tests/viewer-large.cjs` covers pasted 1.85 MB JSON, a near-2 MB single-value JSON document, large XML, repeated minify/indent/copy cycles, complete downloads, and clipboard errors. `npm run bench:viewer` provides a Node/jsdom benchmark; it is not a measurement of browser layout or the real system clipboard.

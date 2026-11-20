@@ -1,0 +1,11 @@
+const fs=require('node:fs'),path=require('node:path'),{performance}=require('node:perf_hooks');const {JSDOM}=require('jsdom');
+const dir=process.env.VIEWER_DIST||path.resolve(__dirname,'../dist');
+const dom=new JSDOM(fs.readFileSync(path.join(dir,'viewer/index.html'),'utf8'),{url:'https://example.com/diffora/viewer/',runScripts:'outside-only'}),w=dom.window;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.HTMLElement.prototype.scrollIntoView=function(){};
+for(const file of [...(fs.existsSync(path.join(dir,'viewer-preview.js'))?['viewer-preview.js']:[]),'viewer-core.js','diff.js','i18n.js','app.js','viewer.js','codec-core.js','codec.js','toolkit.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8'));
+const n=+(process.env.VIEWER_ROWS||1500),format=process.env.VIEWER_FORMAT||'json';
+const source=format==='json'?JSON.stringify(Array.from({length:n},(_,i)=>({id:i,name:'Türkçe servis cevabı '+i,value:'x'.repeat(120),active:true}))):'<response>'+Array.from({length:n},(_,i)=>'<item id="'+i+'"><name>Türkçe servis cevabı '+i+'</name><value>'+'x'.repeat(120)+'</value></item>').join('')+'</response>';
+const by=id=>w.document.getElementById(id);by('v-source').value=source;
+let start=performance.now();by('v-inspect').click();const inspectMs=performance.now()-start;
+start=performance.now();by('v-compact').click();const compactMs=performance.now()-start;
+let copied='';Object.defineProperty(w.navigator,'clipboard',{value:{writeText:async text=>{copied=text}}});
+start=performance.now();by('v-copy').click();setImmediate(()=>{const copyMs=performance.now()-start;console.log(JSON.stringify({format,rows:n,bytes:Buffer.byteLength(source),inspectMs:+inspectMs.toFixed(1),compactMs:+compactMs.toFixed(1),copyMs:+copyMs.toFixed(1),codeElements:by('v-code').querySelectorAll('*').length,treeElements:by('v-tree').querySelectorAll('*').length,copyExact:copied===w.DifforaViewer.inspect(source).compact,error:by('v-error').textContent},null,2));dom.window.close()});

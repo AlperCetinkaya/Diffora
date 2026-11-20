@@ -44,7 +44,7 @@ URL bileşeni modu ayrılmış karakterleri kodlar; tam URL modu `: / ? & = #` a
 - XML karışık metin, CDATA ve `xml:space` içeriklerinin anlamlı boşlukları korunur
 - Türkçe, İngilizce ve Almanca arayüz; sekme değişiminde girdiler korunur
 
-Kaynak metin biçim hatasında otomatik düzeltilmez. Viewer en fazla 2 MB içerik kabul eder. DTD/DOCTYPE desteklenmez; en fazla 512 iç içe seviye ayrıştırılır. Ağaç görünümü 8.000 düğüm / 120 seviye ile sınırlıdır; tam içerik kod görünümünde, kopyalamada ve indirmede korunur. XML şema/XSD doğrulaması yapılmaz.
+Kaynak metin biçim hatasında otomatik düzeltilmez. Viewer en fazla 2 MB içerik kabul eder. DTD/DOCTYPE desteklenmez; en fazla 512 iç içe seviye ayrıştırılır. Ağaç görünümü normal içerikte 8.000 düğüm / 120 seviye, büyük içerikte 1.000 düğüm ile sınırlıdır; uzun anahtar ve değerler önizlemede kısaltılır. Kod önizlemesi en fazla 200 satır, 32.768 karakter ve satır başına 1.000 karakter gösterir. Büyük önizlemede renklendirme kapatılır. Bu sınırlar ekranda belirtilir; arama yalnızca görünen önizlemeyi kapsar. **Kopyala ve İndir her zaman tam çıktıyı kullanır.** XML şema/XSD doğrulaması yapılmaz.
 
 ## Özellikler
 
@@ -157,3 +157,9 @@ npm test
 `jsdom` yalnızca geliştirme/test bağımlılığıdır. Yayındaki uygulama için npm veya sunucu kurulumu gerekmez.
 
 Testler uzun dosyalar, dağınık değişiklikler, kapasite hatası sonrası durum, farklar arasında gezinme ve yok sayılan boşluk vurgularını kapsar. İlk komut `fixtures/` altında örnek TXT dosyalarını ve `results.json` dosyasını üretir. DOM durum testleri bir test modeli kullanır; gerçek tarayıcı testinin yerine geçmez.
+
+### Büyük Viewer çıktıları
+
+Gizli kod görünümü önceden çizilmez. Sıkıştırma yalnızca sınırlı önizlemeyi değiştirir; kopyalama ekrandaki kısaltılmış metni değil, tam formatlanmış sonucu kullanır. Kopyalama sürerken düğme devre dışıdır ve durum mesajı gösterilir. İçerik değiştirilirse eski kopyalama işleminin başarı mesajı yeni içeriğe taşınmaz.
+
+`tests/viewer-large.cjs`, yapıştırılan 1,85 MB JSON, 2 MB'a yakın tek alanlı JSON, büyük XML, yinelenen sıkıştır/girintile/kopyala işlemleri, tam indirme ve pano hatalarını kapsar. Ek olarak `npm run bench:viewer` ile Node/jsdom ölçümü yapılabilir. Bu ölçüm tarayıcı çizim veya gerçek sistem panosu performansının yerine geçmez.

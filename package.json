@@ -1,12 +1,13 @@
 {
   "name": "diffora",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Diffora Developer Toolkit \u2014 local file comparison and JSON/XML inspection",
   "scripts": {
-    "test": "node tests/long-documents.cjs && node tests/regressions.cjs && node tests/viewer.cjs && node tests/toolkit.cjs && node tests/codec.cjs",
+    "test": "node tests/long-documents.cjs && node tests/regressions.cjs && node tests/viewer.cjs && node tests/toolkit.cjs && node tests/codec.cjs && node tests/viewer-large.cjs",
     "build": "node scripts/build-routes.cjs",
-    "pretest": "node scripts/build-routes.cjs"
+    "pretest": "node scripts/build-routes.cjs",
+    "bench:viewer": "node benchmarks/viewer.cjs"
   },
   "devDependencies": {
     "jsdom": "31.0.1"

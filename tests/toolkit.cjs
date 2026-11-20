@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const root=path.resolve(__dirname,'..');
 function setup(entry='index.html',url='https://example.com/diffora/'){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'dist',entry),'utf8'),{url,runScripts:'outside-only'}),w=dom.window;
  w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.HTMLElement.prototype.scrollIntoView=function(){};
- for(const file of ['viewer-core.js','diff.js','i18n.js','app.js','viewer.js','codec-core.js','codec.js','toolkit.js'])w.eval(fs.readFileSync(path.join(root,'dist',file),'utf8'));
+ for(const file of ['viewer-preview.js','viewer-core.js','diff.js','i18n.js','app.js','viewer.js','codec-core.js','codec.js','toolkit.js'])w.eval(fs.readFileSync(path.join(root,'dist',file),'utf8'));
  return {dom,w,el:id=>w.document.getElementById(id)};
 }
 test('Root opens comparison and stable tool links never accumulate nested paths',()=>{
