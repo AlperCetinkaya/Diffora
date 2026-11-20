@@ -1,12 +1,29 @@
-# Diffora
+# Diffora — Developer Toolkit
 
 [Türkçe](README.md) | [English](README.en.md)
 
 İki metin veya kod dosyasını yan yana karşılaştıran ve JSON/XML servis cevaplarını incelemeyi sağlayan, tarayıcı içinde çalışan bir web uygulaması. Aynı satırlar yeşil, farklı satırlar kırmızı gösterilir. Eklenen ve silinen satırlar için karşı tarafta boş alan bırakılarak hizalama korunur.
 
+## Araçlar ve gezinme
+
+Diffora, ortak bir sol menü altında iki bağımsız araç sunar:
+
+- [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
+- [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
+
+Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
+
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html` ve `dist/viewer/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+
+```bash
+npm run build
+```
+
+Bu komut yalnızca iki statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
 ## JSON / XML Viewer
 
-[Canlı Viewer](https://alpercetinkaya.com.tr/diffora/#viewer) sekmesinde servis cevabını yapıştırın veya UTF-8 dosya yükleyin. **Formatla ve doğrula** ile JSON/XML otomatik tanınır; biçimi elle de seçebilirsiniz.
+[Canlı Viewer](https://alpercetinkaya.com.tr/diffora/viewer/) sekmesinde servis cevabını yapıştırın veya UTF-8 dosya yükleyin. **Formatla ve doğrula** ile JSON/XML otomatik tanınır; biçimi elle de seçebilirsiniz.
 
 - İç içe nesneler, diziler ve XML etiketleri için açılıp kapanan ağaç görünümü
 - Renklendirilmiş, satır numaralı kod görünümü; 2 veya 4 boşluk girinti

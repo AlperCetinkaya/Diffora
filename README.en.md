@@ -1,12 +1,29 @@
-# Diffora
+# Diffora — Developer Toolkit
 
 [English](README.en.md) | [Türkçe](README.md)
 
 A browser-based app for comparing two text/code files side by side and inspecting JSON/XML service responses. Matching lines appear in green and differences in red. Blank cells keep the two sides aligned when lines are added or removed.
 
+## Tools and navigation
+
+Diffora provides two independent tools in a shared navigation layout:
+
+- [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
+- [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
+
+Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
+
+For direct links on GitHub Pages, `dist/compare/index.html` and `dist/viewer/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+
+```bash
+npm run build
+```
+
+This command only generates two static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
 ## JSON / XML Viewer
 
-In the [live Viewer](https://alpercetinkaya.com.tr/diffora/#viewer) tab, paste a service response or load a UTF-8 file. **Format and validate** auto-detects JSON/XML, with manual format selection also available.
+In the [live Viewer](https://alpercetinkaya.com.tr/diffora/viewer/) tab, paste a service response or load a UTF-8 file. **Format and validate** auto-detects JSON/XML, with manual format selection also available.
 
 - Collapsible tree for nested objects, arrays, and XML elements
 - Syntax-colored code view with line numbers and 2- or 4-space indentation
