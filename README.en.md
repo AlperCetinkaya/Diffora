@@ -6,21 +6,28 @@ A browser-based app for comparing two text/code files side by side and inspectin
 
 ## Tools and navigation
 
-Diffora provides three independent tools in a shared navigation layout:
+Diffora provides four independent tools in a shared navigation layout:
 
 - [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
+- [Timestamp Converter](https://alpercetinkaya.com.tr/diffora/timestamp/)
 
 Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
 
-For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, and `dist/codec/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, and `dist/timestamp/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
 
 ```bash
 npm run build
 ```
 
-This command only generates three static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+This command only generates four static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
+## Timestamp Converter
+
+The [live tool](https://alpercetinkaya.com.tr/diffora/timestamp/) converts Unix timestamps to dates and wall-clock dates to timestamps. Choose seconds, milliseconds or automatic detection, plus an IANA time zone. Results include seconds, milliseconds, UTC ISO 8601 and local date/time with the UTC offset. Each value can be copied independently. **Use current time** fills both inputs.
+
+Auto detection treats absolute values below 100 billion as seconds; choose an explicit unit for older or distant dates. Seconds accept up to three decimal places. Milliseconds must be integers. Date input belongs to the selected time zone, defaults to Europe/Istanbul, and supports years 0001–9999. Invalid calendar dates, daylight-saving gaps and ambiguous repeated hours produce explicit errors. For ambiguous hours, use UTC input or an exact timestamp. Input/option changes clear stale results. Turkish, English and German are supported; processing is entirely local.
 
 ## URL / Base64 Encode–Decode
 

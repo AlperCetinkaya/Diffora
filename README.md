@@ -6,21 +6,28 @@
 
 ## Araçlar ve gezinme
 
-Diffora, ortak bir sol menü altında üç bağımsız araç sunar:
+Diffora, ortak bir sol menü altında dört bağımsız araç sunar:
 
 - [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
+- [Timestamp Dönüştürücü](https://alpercetinkaya.com.tr/diffora/timestamp/)
 
 Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
 
-GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` ve `dist/codec/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` ve `dist/timestamp/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
 
 ```bash
 npm run build
 ```
 
-Bu komut yalnızca üç statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+Bu komut yalnızca dört statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
+## Timestamp Dönüştürücü
+
+[Canlı araç](https://alpercetinkaya.com.tr/diffora/timestamp/) Unix timestamp değerlerini tarihe, yerel tarih/saat girişlerini timestamp'e dönüştürür. Saniye, milisaniye veya otomatik algılama ile IANA saat dilimi seçilebilir. Sonuçlar saniye, milisaniye, UTC ISO 8601 ve UTC farkıyla birlikte yerel tarih/saat olarak gösterilir. Her sonuç ayrı kopyalanabilir. **Şu anı kullan** iki girdiyi de doldurur.
+
+Otomatik algılama mutlak değeri 100 milyardan küçük sayıları saniye kabul eder; eski veya uzak tarihlerde birimi elle seçin. Saniyeler en fazla üç ondalık basamak, milisaniyeler tam sayı kabul eder. Tarih girişi seçilen saat dilimine aittir; varsayılan Europe/Istanbul'dur ve 0001–9999 yılları desteklenir. Geçersiz takvim tarihleri, yaz saati geçişinde yaşanmayan veya iki kez yaşanan saatler açık hata mesajıyla bildirilir. Belirsiz saatlerde UTC girişi veya kesin timestamp kullanın. Girdi/seçenek değişiklikleri eski sonucu temizler. Türkçe, İngilizce ve Almanca desteklenir; tüm işlemler tarayıcıda gerçekleşir.
 
 ## URL / Base64 Encode–Decode
 
