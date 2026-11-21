@@ -6,22 +6,31 @@
 
 ## Araçlar ve gezinme
 
-Diffora, ortak bir sol menü altında dört bağımsız araç sunar:
+Diffora, ortak bir sol menü altında beş bağımsız araç sunar:
 
 - [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 - [Timestamp Dönüştürücü](https://alpercetinkaya.com.tr/diffora/timestamp/)
+- [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
 
 Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
 
-GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` ve `dist/timestamp/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` `dist/timestamp/index.html` ve `dist/regex/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
 
 ```bash
 npm run build
 ```
 
-Bu komut yalnızca dört statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+Bu komut yalnızca beş statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
+## Regex Tester
+
+[Canlı araç](https://alpercetinkaya.com.tr/diffora/regex/) JavaScript düzenli ifadelerini `g`, `i`, `m`, `s`, `u` seçenekleriyle dener. Deseni çevresinde `/ /` olmadan girin, deneme metnini yapıştırın ve **Eşleşmeleri bul** veya **Değiştir** seçin. Eşleşmeler renklendirilir; numaralı, adlandırılmış ve eşleşmeyen isteğe bağlı gruplar listelenir. Boş eşleşmeler dik çizgiyle gösterilir. Konumlar sıfırdan başlayan UTF-16 indeksleridir.
+
+Değiştirme JavaScript metin değiştirme kurallarını kullanır: `$$`, `$&`, `$1`–`$99`, `$<ad>` ve ön/son ek belirteçleri desteklenir. Değiştirilen metnin tamamı kopyalanabilir. Girdi ve seçenek değişiklikleri eski sonuçları temizler; araç ve dil değişiklikleri içeriği korur. İşlemler tarayıcıda, 2 saniye süre sınırı ve durdurma düğmesiyle ayrı bir Web Worker içinde çalışır. Uzun süren desenler arayüz iş parçacığında çalışmaz.
+
+Sınırlar: UTF-8 deneme metni 200 KB, desen/değiştirme metni ayrı ayrı 10.000 karakter, toplam 20.000 eşleşme ve değiştirme sonucu 2.000.000 karakter. İşlem sınırı aşılırsa kısmi değiştirme sonucu yerine hata gösterilir. Renklendirme ilk 32.000 karakter ve 500 eşleşmeyle; liste ilk 100 eşleşme ve eşleşme başına 20 numaralı/adlandırılmış grupla sınırlıdır. Uzun değerler kısaltılır. Başarılı işlemlerde eşleşme sayısı ve kopyalanan değiştirme sonucu tamdır. Araç tarayıcının JavaScript sözdizimini kullanır; .NET/PCRE/PostgreSQL sözdizimi kullanmaz.
 
 ## Timestamp Dönüştürücü
 

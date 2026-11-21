@@ -6,22 +6,31 @@ A browser-based app for comparing two text/code files side by side and inspectin
 
 ## Tools and navigation
 
-Diffora provides four independent tools in a shared navigation layout:
+Diffora provides five independent tools in a shared navigation layout:
 
 - [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 - [Timestamp Converter](https://alpercetinkaya.com.tr/diffora/timestamp/)
+- [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
 
 Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
 
-For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, and `dist/timestamp/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, `dist/timestamp/index.html`, and `dist/regex/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
 
 ```bash
 npm run build
 ```
 
-This command only generates four static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+This command only generates five static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
+## Regex Tester
+
+The [live tool](https://alpercetinkaya.com.tr/diffora/regex/) tests JavaScript regular expressions with `g`, `i`, `m`, `s`, and `u`. Enter the pattern without surrounding slashes, paste test text, and choose **Find matches** or **Replace**. Matches are highlighted; numbered, named, and unmatched optional groups are listed. Empty matches use a vertical bar. Positions use zero-based UTF-16 indexes.
+
+Replacement follows JavaScript string substitution semantics, including `$$`, `$&`, `$1`–`$99`, `$<name>`, and prefix/suffix tokens. The full replacement output can be copied. Input and option changes invalidate stale results; tool navigation and language changes preserve content. Processing stays local in a disposable Web Worker with a 2-second timeout and manual stop, so pathological backtracking does not run on the UI thread.
+
+Limits: 200 KB UTF-8 test text, 10,000 characters each for pattern/replacement, 20,000 total matches, and 2,000,000 replacement output characters. Exceeding a processing limit reports an error rather than returning partial replacement text. Highlighting previews the first 32,000 characters and 500 matches; the list shows 100 matches, up to 20 numbered/named groups each, with long values truncated. Successful match counts and copied replacement output are complete. This uses browser JavaScript syntax, not .NET/PCRE/PostgreSQL dialects.
 
 ## Timestamp Converter
 
