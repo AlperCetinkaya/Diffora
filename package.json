@@ -1,13 +1,14 @@
 {
   "name": "diffora",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Diffora Developer Toolkit \u2014 local file comparison and JSON/XML inspection",
   "scripts": {
-    "test": "node tests/long-documents.cjs && node tests/regressions.cjs && node tests/viewer.cjs && node tests/toolkit.cjs && node tests/codec.cjs && node tests/viewer-large.cjs && node tests/timestamp.cjs && node tests/regex.cjs",
+    "test": "node tests/long-documents.cjs && node tests/regressions.cjs && node tests/viewer.cjs && node tests/toolkit.cjs && node tests/codec.cjs && node tests/viewer-large.cjs && node tests/timestamp.cjs && node tests/regex.cjs && node tests/csharp.cjs",
     "build": "node scripts/build-routes.cjs",
     "pretest": "node scripts/build-routes.cjs",
-    "bench:viewer": "node benchmarks/viewer.cjs"
+    "bench:viewer": "node benchmarks/viewer.cjs",
+    "test:csharp-dotnet": "node tests/csharp-dotnet.cjs"
   },
   "devDependencies": {
     "jsdom": "31.0.1"

@@ -6,23 +6,36 @@
 
 ## Araçlar ve gezinme
 
-Diffora, ortak bir sol menü altında beş bağımsız araç sunar:
+Diffora, ortak bir sol menü altında altı bağımsız araç sunar:
 
 - [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 - [Timestamp Dönüştürücü](https://alpercetinkaya.com.tr/diffora/timestamp/)
 - [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
+- [JSON → C# Model](https://alpercetinkaya.com.tr/diffora/csharp/)
 
 Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
 
-GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` `dist/timestamp/index.html` ve `dist/regex/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` `dist/timestamp/index.html` `dist/regex/index.html` ve `dist/csharp/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
 
 ```bash
 npm run build
 ```
 
-Bu komut yalnızca beş statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+Bu komut yalnızca altı statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
+## JSON → C# Model
+
+[Canlı araç](https://alpercetinkaya.com.tr/diffora/csharp/) System.Text.Json uyumlu C# 10+ sınıfları üretir. UTF-8 JSON yapıştırın veya dosyadan yükleyin; ana sınıf adı ve isteğe bağlı namespace seçip modeli oluşturun. Kodu kopyalayabilir veya `.cs` olarak indirebilirsiniz. Viewer'da doğrulanmış JSON için **C# modeli oluştur** düğmesi bulunur; kaynağın tamamını aktarır ve Viewer içeriğini korur. XML, JSON olarak aktarılmaz.
+
+İç içe nesneler ayrı sınıflara, diziler `List<T>` tipine dönüşür. Alan adları PascalCase yapılır; `[JsonPropertyName]` özgün JSON adlarını korur. Geçersiz/çakışan adlar düzeltilip benzersizleştirilir. Model adlarının tiplerle çakışmasını engellemek için tam nitelikli tip adları kullanılır. Nesne dizilerinin tüm öğeleri birlikte değerlendirilir: eksik/null alanlar ve null liste öğeleri nullable olur. Kök girdi nesne veya en az bir nesne içeren, yalnızca nesne/null öğelerinden oluşan dizi olmalıdır. Dizi kökünü deserialize etmek için üretilen yorumdaki kök tipi kullanın.
+
+Sayısal değerler JavaScript yuvarlamasına uğramadan değerlendirilir: önce `int`, ardından `long`, uygunsa kayıpsız `decimal` seçilir. Uyumsuz/karışık tipler, decimal sınırlarını aşan sayılar, boş diziler ve yalnızca null içeren alanlar gerektiğinde nullable `JsonElement` kullanır; tip çıkarımı notları gösterilir. Tarihler varsayılan olarak `string` kalır; ISO tarih algılama seçeneği açıldığında saat dilimi taşıyan geçerli zaman damgaları `DateTimeOffset` olur. Sonuç yalnızca verilen örneği tanımlar, API sözleşmesi değildir; sayı aralıklarını ve nullable varsayımlarını kontrol edin.
+
+İçerik tarayıcıda kalır; model üretimi 3 saniye süre sınırıyla ayrı worker'da yapılır. Sınırlar: 2 MB girdi, 64 iç içe seviye, 50.000 değer, 150 sınıf, sınıf başına 500 ve toplam 3.000 alan, 500.000 karakter çıktı. Aynı nesnedeki yinelenen alan adları sessizce silinmez, hata olarak bildirilir. Girdi/seçenek değişiklikleri eski çıktıyı temizler. Türkçe, İngilizce ve Almanca desteklenir.
+
+`npm test` tip çıkarımı, arayüz, dosya, pano, indirme, worker ve Viewer aktarımı testlerini içerir. .NET 8 SDK kuruluysa `npm run test:csharp-dotnet` ayrıca yedi üretilmiş modeli derler; deserialize, sayı hassasiyeti, JSON adları ve nullable listeleri doğrular. `DIFFORA_DOTNET_BIN` ile dotnet yolu seçilebilir; `DIFFORA_DOTNET_ROOT` SDK referanslarıyla doğrudan Roslyn derlemesini etkinleştirir.
 
 ## Regex Tester
 

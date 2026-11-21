@@ -6,23 +6,36 @@ A browser-based app for comparing two text/code files side by side and inspectin
 
 ## Tools and navigation
 
-Diffora provides five independent tools in a shared navigation layout:
+Diffora provides six independent tools in a shared navigation layout:
 
 - [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
 - [URL / Base64 Encode–Decode](https://alpercetinkaya.com.tr/diffora/codec/)
 - [Timestamp Converter](https://alpercetinkaya.com.tr/diffora/timestamp/)
 - [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
+- [JSON → C# Model](https://alpercetinkaya.com.tr/diffora/csharp/)
 
 Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
 
-For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, `dist/timestamp/index.html`, and `dist/regex/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, `dist/timestamp/index.html`, `dist/regex/index.html`, and `dist/csharp/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
 
 ```bash
 npm run build
 ```
 
-This command only generates five static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+This command only generates six static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
+## JSON → C# Model
+
+The [live generator](https://alpercetinkaya.com.tr/diffora/csharp/) creates C# 10+ classes compatible with System.Text.Json. Paste or load UTF-8 JSON, choose a root class name and optional namespace, then generate, copy or download a `.cs` file. The Viewer has **Generate C# model** for validated JSON; it transfers the complete source without changing Viewer content. XML cannot be transferred as JSON.
+
+Nested objects become separate classes, arrays become `List<T>`, names use PascalCase and `[JsonPropertyName]` preserves the original JSON keys. Invalid/colliding property names are normalized and made unique. Generated references use fully qualified names to avoid model-name collisions. All items in object arrays are merged: missing/null fields and null list items are nullable. Root input must be an object or an array containing at least one object and only objects/null; use the root type in the generated comment for array deserialization.
+
+Numeric literals are inferred without JavaScript rounding: `int`, then `long`, then exact `decimal` where representable. Mixed/incompatible types, numbers outside decimal limits, empty arrays and null-only fields use `JsonElement` (nullable when appropriate), with inference notes. Dates remain `string` by default; optional ISO detection recognizes valid offset-bearing timestamps as `DateTimeOffset`. Inference describes only the supplied sample, not the full API contract; review numeric ranges and nullable assumptions.
+
+Content stays local. Generation uses a disposable worker with a 3-second timeout. Limits: 2 MB input, 64 nesting levels, 50,000 values, 150 classes, 500 properties per class, 3,000 properties total and 500,000 generated characters. Duplicate keys are rejected instead of silently discarded. Editing input/options invalidates old exports. Turkish, English and German are supported.
+
+`npm test` includes inference, UI, file, clipboard, download, worker and Viewer-transfer tests. With a .NET 8 SDK installed, `npm run test:csharp-dotnet` also compiles seven generated fixtures and checks deserialization, exact numeric values, JSON names and nullable lists. `DIFFORA_DOTNET_BIN` can select a dotnet executable; `DIFFORA_DOTNET_ROOT` optionally selects direct Roslyn compilation with SDK reference assemblies.
 
 ## Regex Tester
 
