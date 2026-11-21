@@ -6,7 +6,7 @@
 
 ## Araçlar ve gezinme
 
-Diffora, ortak bir sol menü altında altı bağımsız araç sunar:
+Diffora, ortak bir sol menü altında yedi bağımsız araç sunar:
 
 - [Karşılaştırma](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
@@ -14,16 +14,27 @@ Diffora, ortak bir sol menü altında altı bağımsız araç sunar:
 - [Timestamp Dönüştürücü](https://alpercetinkaya.com.tr/diffora/timestamp/)
 - [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
 - [JSON → C# Model](https://alpercetinkaya.com.tr/diffora/csharp/)
+- [SQL Formatter](https://alpercetinkaya.com.tr/diffora/sql/)
 
 Masaüstünde sol menü, küçük ekranlarda üst araç menüsü kullanılır. Araçlar arasında geçiş, tarayıcının geri/ileri düğmeleri ve dil seçimi girdileri korur. Eski `#viewer` bağlantıları yeni Viewer adresine geçirilir. Ana adres varsayılan olarak Karşılaştırma aracını açar.
 
-GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` `dist/timestamp/index.html` `dist/regex/index.html` ve `dist/csharp/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
+GitHub Pages üzerinde doğrudan bağlantılar için `dist/compare/index.html`, `dist/viewer/index.html` `dist/codec/index.html` `dist/timestamp/index.html` `dist/regex/index.html` `dist/csharp/index.html` ve `dist/sql/index.html` giriş dosyaları depoda tutulur. Ana `dist/index.html` değiştirildiğinde bu dosyaları güncellemek için:
 
 ```bash
 npm run build
 ```
 
-Bu komut yalnızca altı statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+Bu komut yalnızca yedi statik giriş sayfasını üretir; sunucu veya veritabanı gerektirmez. `npm test` çalıştırıldığında da giriş sayfaları otomatik güncellenir.
+
+## SQL Formatter
+
+[Canlı araç](https://alpercetinkaya.com.tr/diffora/sql/) PostgreSQL ve SQL Server (Transact-SQL) destekler. SQL türünü, 2/4 boşluk veya sekme girintisini, anahtar sözcüklerin büyük/küçük harf veya özgün biçimini seçin. SQL yapıştırabilir veya UTF-8 `.sql`/`.txt` dosyasını yükleyip/sürükleyip bırakabilirsiniz. Tam sonucu kopyalayın veya `.sql` indirin. Her SQL türünün ayrı örneği bulunur. Girdi/seçenek değişiklikleri eski çıktıyı temizler; araç ve dil geçişleri içeriği korur.
+
+Testler PostgreSQL CTE, cast, `$1` parametreleri, JSON operatörleri, tırnaklı adlar ve dollar-quoted metinler ile T-SQL TOP, köşeli parantezli adlar, `@parametre`, Unicode metinler, transaction, sayfalama ve GO bloklarını (tekrar sayıları dahil) kapsar. Metin sabitleri, tırnaklı adlar ve yorum içerikleri korunur. Dollar-quoted fonksiyon gövdelerinin içi değiştirilmez. Bu araç SQL doğrulayıcısı veya çalıştırıcısı değildir. Stored procedure gövdeleri ve SQLCMD/psql komutları için tam destek yoktur. Veritabanı bağlantısı kurulmaz.
+
+İşlemler tarayıcıdaki ayrı worker'da 3 saniye süre sınırıyla yapılır. Sınırlar: 512 KB UTF-8 girdi ve 2.097.152 karakter çıktı. Worker, SQL türü, içerik koruma, tekrar biçimlendirme, arayüz, dosya, pano ve indirme testleri `npm test` kapsamındadır. Türkçe, İngilizce ve Almanca desteklenir.
+
+Yerel paketlenmiş motor **sql-formatter 15.10.0** (MIT) ve **nearley** çalışma zamanını (MIT) kullanır; yalnızca PostgreSQL/Transact-SQL kuralları pakete alınır. Lisanslar `dist/vendor/` altındadır. Çalışırken CDN kullanılmaz. `npm ci && npm run build`, sabitlenmiş esbuild sürümüyle SQL motorunu ve statik giriş sayfalarını yeniden üretir. Yalnızca SQL motoru için `npm run build:sql` kullanılabilir.
 
 ## JSON → C# Model
 

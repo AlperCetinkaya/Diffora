@@ -6,7 +6,7 @@ A browser-based app for comparing two text/code files side by side and inspectin
 
 ## Tools and navigation
 
-Diffora provides six independent tools in a shared navigation layout:
+Diffora provides seven independent tools in a shared navigation layout:
 
 - [Comparison](https://alpercetinkaya.com.tr/diffora/compare/)
 - [JSON / XML Viewer](https://alpercetinkaya.com.tr/diffora/viewer/)
@@ -14,16 +14,27 @@ Diffora provides six independent tools in a shared navigation layout:
 - [Timestamp Converter](https://alpercetinkaya.com.tr/diffora/timestamp/)
 - [Regex Tester](https://alpercetinkaya.com.tr/diffora/regex/)
 - [JSON → C# Model](https://alpercetinkaya.com.tr/diffora/csharp/)
+- [SQL Formatter](https://alpercetinkaya.com.tr/diffora/sql/)
 
 Desktop uses a left sidebar; smaller screens use a top tool menu. Switching tools, browser back/forward, and language changes preserve inputs. Legacy `#viewer` links open the new Viewer address. The app root opens Comparison by default.
 
-For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, `dist/timestamp/index.html`, `dist/regex/index.html`, and `dist/csharp/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
+For direct links on GitHub Pages, `dist/compare/index.html`, `dist/viewer/index.html`, `dist/codec/index.html`, `dist/timestamp/index.html`, `dist/regex/index.html`, `dist/csharp/index.html`, and `dist/sql/index.html` are checked in. After changing the main `dist/index.html`, regenerate them with:
 
 ```bash
 npm run build
 ```
 
-This command only generates six static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+This command only generates seven static entry pages; no backend or database is required. `npm test` also refreshes the entry pages automatically.
+
+## SQL Formatter
+
+The [live formatter](https://alpercetinkaya.com.tr/diffora/sql/) supports PostgreSQL and SQL Server (Transact-SQL). Choose the dialect, 2/4-space or tab indentation, and uppercase/lowercase/preserved keywords. Paste SQL or load/drop a UTF-8 `.sql`/`.txt` file, format it, then copy the full result or download `.sql`. Each dialect has its own example. Input/option edits clear stale results; tool navigation and language changes preserve inputs and output.
+
+Tests cover PostgreSQL CTEs, casts, `$1` parameters, JSON operators, quoted identifiers, and dollar-quoted text, plus T-SQL TOP, bracket identifiers, `@parameters`, Unicode strings, transactions, pagination and GO batches (including repeat counts). Strings, quoted identifiers and comment contents are preserved. Dollar-quoted function bodies remain unchanged internally. This is a formatter, not a SQL validator or execution engine. Stored procedure bodies and SQLCMD/psql commands are not fully supported. No database connection is opened.
+
+All processing is local in a disposable worker with a 3-second timeout. Limits: 512 KB UTF-8 input and 2,097,152 output characters. Worker, dialect, preservation, stable formatting, UI, file, clipboard and download tests are included in `npm test`. Turkish, English and German interfaces are available.
+
+The locally bundled engine uses **sql-formatter 15.10.0** (MIT) with only PostgreSQL/Transact-SQL dialects and the **nearley** runtime (MIT). Licenses are in `dist/vendor/`. No CDN is used at runtime. `npm ci && npm run build` regenerates the bundle using pinned esbuild and refreshes all static routes; `npm run build:sql` rebuilds only the SQL engine.
 
 ## JSON → C# Model
 
