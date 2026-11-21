@@ -27,6 +27,8 @@ This command only generates six static entry pages; no backend or database is re
 
 ## JSON → C# Model
 
+**Include JsonPropertyName attributes** is enabled by default. Disable it to generate all classes without these attributes. PascalCase names remain; configure serializer name mapping for JSON keys such as `created_at`. Regenerate after changing the option.
+
 The [live generator](https://alpercetinkaya.com.tr/diffora/csharp/) creates C# 10+ classes compatible with System.Text.Json. Paste or load UTF-8 JSON, choose a root class name and optional namespace, then generate, copy or download a `.cs` file. The Viewer has **Generate C# model** for validated JSON; it transfers the complete source without changing Viewer content. XML cannot be transferred as JSON.
 
 Nested objects become separate classes, arrays become `List<T>`, names use PascalCase and `[JsonPropertyName]` preserves the original JSON keys. Invalid/colliding property names are normalized and made unique. Generated references use fully qualified names to avoid model-name collisions. All items in object arrays are merged: missing/null fields and null list items are nullable. Root input must be an object or an array containing at least one object and only objects/null; use the root type in the generated comment for array deserialization.

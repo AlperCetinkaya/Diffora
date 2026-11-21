@@ -27,6 +27,8 @@ Bu komut yalnızca altı statik giriş sayfasını üretir; sunucu veya veritaba
 
 ## JSON → C# Model
 
+**JsonPropertyName attribute’larını ekle** seçeneği varsayılan olarak açıktır. Kapatıldığında hiçbir sınıfa bu attribute eklenmez. PascalCase adlar korunur; `created_at` gibi JSON adlarını eşlemek için serializer ayarlarını buna göre yapılandırın. Seçenek değiştiğinde modeli yeniden oluşturun.
+
 [Canlı araç](https://alpercetinkaya.com.tr/diffora/csharp/) System.Text.Json uyumlu C# 10+ sınıfları üretir. UTF-8 JSON yapıştırın veya dosyadan yükleyin; ana sınıf adı ve isteğe bağlı namespace seçip modeli oluşturun. Kodu kopyalayabilir veya `.cs` olarak indirebilirsiniz. Viewer'da doğrulanmış JSON için **C# modeli oluştur** düğmesi bulunur; kaynağın tamamını aktarır ve Viewer içeriğini korur. XML, JSON olarak aktarılmaz.
 
 İç içe nesneler ayrı sınıflara, diziler `List<T>` tipine dönüşür. Alan adları PascalCase yapılır; `[JsonPropertyName]` özgün JSON adlarını korur. Geçersiz/çakışan adlar düzeltilip benzersizleştirilir. Model adlarının tiplerle çakışmasını engellemek için tam nitelikli tip adları kullanılır. Nesne dizilerinin tüm öğeleri birlikte değerlendirilir: eksik/null alanlar ve null liste öğeleri nullable olur. Kök girdi nesne veya en az bir nesne içeren, yalnızca nesne/null öğelerinden oluşan dizi olmalıdır. Dizi kökünü deserialize etmek için üretilen yorumdaki kök tipi kullanın.
